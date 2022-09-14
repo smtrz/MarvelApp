@@ -7,7 +7,6 @@ import java.security.MessageDigest
 object Helper {
 
     fun getHash(): String {
-
         return md5("1" + BuildConfig.MARVEL_PRIVATE_KEY + BuildConfig.MARVEL_PUBLIC_KEY)
     }
 
