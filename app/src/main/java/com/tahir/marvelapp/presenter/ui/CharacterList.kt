@@ -1,6 +1,5 @@
 package com.tahir.pokedex.ui
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,8 +17,9 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import com.tahir.marvelapp.data.model.Results
-import com.tahir.marvelapp.presenter.CharacterListViewModel
+import com.tahir.marvelapp.data.models.characters.Results
+import com.tahir.marvelapp.presenter.navigation.Screen
+import com.tahir.marvelapp.presenter.viewmodels.CharacterListViewModel
 import com.tahir.marvelapp.presenter.ui.ImageLoader
 
 /**
@@ -37,11 +37,11 @@ fun MarvelCardItem(
 			.padding(8.dp)
 			.fillMaxWidth()
 			.clickable {
-//                        navController.navigate(
-//                                Screen.CharacterDetailscreen.withArgs(
-//                                        pokemon.id.toString()
-//                                )
-//                        )
+                        navController.navigate(
+                                Screen.CharacterDetailscreen.withArgs(
+                                       marvelCharacter.id
+                                )
+                        )
 
 			},
 		shape = RoundedCornerShape(10.dp),
@@ -51,7 +51,8 @@ fun MarvelCardItem(
 	) {
 
 		Row(verticalAlignment = Alignment.CenterVertically) {
-			ImageLoader(marvelCharacter.thumbnail?.path + ".jpg")
+			var imageUrl = marvelCharacter.thumbnail?.path +"."+marvelCharacter.thumbnail?.extension
+			ImageLoader(imageUrl.replace("http:", "https:"))
 			Spacer(modifier = Modifier.width(8.dp))
 			marvelCharacter.name?.let {
 				Text(
@@ -80,6 +81,7 @@ fun MarvelList(
 		items(characterPagingList) { results ->
 
 			if (results != null) {
+
 				MarvelCardItem(results, navController)
 			}
 

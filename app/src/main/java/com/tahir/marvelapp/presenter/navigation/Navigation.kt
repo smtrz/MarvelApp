@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.tahir.marvelapp.presenter.ui.ProfileScreen
 import com.tahir.pokedex.ui.MarvelList
 
 /**
@@ -32,7 +33,7 @@ fun Navigation() {
 		})) { entry ->
 			// getting the id form the path and setting up the pokemon profile screen
 			var id = entry.arguments?.getInt("id")
-			//ProfileScreen(id!!, navController)
+			ProfileScreen(id!!, navController)
 
 		}
 	}

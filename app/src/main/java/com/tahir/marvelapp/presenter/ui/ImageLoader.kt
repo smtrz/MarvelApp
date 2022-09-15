@@ -18,7 +18,7 @@ fun ImageLoader(url: String) {
     Image(
         painter = rememberAsyncImagePainter(url),
         contentDescription = "character Image",
-        contentScale = ContentScale.Fit,
+        contentScale = ContentScale.FillBounds,
         modifier = Modifier.size(75.dp)
     )
 }

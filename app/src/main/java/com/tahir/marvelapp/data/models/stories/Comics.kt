@@ -1,9 +1,10 @@
-package com.tahir.marvelapp.data.model
+package com.tahir.marvelapp.data.models.stories
 
 import com.google.gson.annotations.SerializedName
+import com.tahir.marvelapp.data.models.comics.Items
 
 
-data class Series (
+data class Comics (
 
     @SerializedName("available"     ) var available     : Int?             = null,
     @SerializedName("collectionURI" ) var collectionURI : String?          = null,

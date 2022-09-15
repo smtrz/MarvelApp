@@ -11,4 +11,17 @@ class RemoteDataSource @Inject constructor(private val marvelService: MarvelServ
     suspend fun getPaginatedMarvels(offset: Int, limit: Int) =
         marvelService.gePaginatedCharacters(offset, limit)
 
+    suspend fun getCharacterComics(id: Int) =
+        marvelService.getCharacterComics(id)
+
+    suspend fun getCharacterSeries(id: Int) =
+        marvelService.getCharacterSeries(id)
+
+    suspend fun getCharacterEvents(id: Int) =
+        marvelService.getCharacterEvents(id)
+
+    suspend fun getCharacterStories(id: Int) =
+        marvelService.getCharacterStories(id)
+
+
 }

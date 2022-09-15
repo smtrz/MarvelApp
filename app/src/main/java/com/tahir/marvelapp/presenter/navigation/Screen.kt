@@ -11,7 +11,7 @@ sealed class Screen(val route: String) {
 	 * appends the function argument that needs to be passed in the navigation route.
 	 * @param args
 	 */
-	fun withArgs(vararg args: String): String {
+	fun withArgs(vararg args: Int?): String {
 		return buildString {
 			append(route)
 			args.forEach { arg ->

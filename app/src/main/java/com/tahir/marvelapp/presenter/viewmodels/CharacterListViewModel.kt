@@ -1,4 +1,4 @@
-package com.tahir.marvelapp.presenter
+package com.tahir.marvelapp.presenter.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

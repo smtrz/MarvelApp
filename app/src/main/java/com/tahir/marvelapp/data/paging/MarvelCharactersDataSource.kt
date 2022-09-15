@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.tahir.marvelapp.Constants.WebServiceConstants.Companion.PAGE_SIZE
 import com.tahir.marvelapp.Constants.WebServiceConstants.Companion.STARTING_OFFSET_INDEX
-import com.tahir.marvelapp.data.model.Results
+import com.tahir.marvelapp.data.models.characters.Results
 import com.tahir.marvelapp.data.repo.Repository
 import retrofit2.HttpException
 import java.io.IOException
@@ -29,7 +29,7 @@ class MarvelCharactersDataSource(private val repository: Repository) :
             LoadResult.Page(
                 data = characterList.data!!.results,
                 prevKey = if (offset == STARTING_OFFSET_INDEX) null else offset - PAGE_SIZE,
-                nextKey = if (characterList.data!!.count == 0) offset + PAGE_SIZE else null
+                nextKey = if (characterList.data!!.count != 0) offset + PAGE_SIZE else null
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)

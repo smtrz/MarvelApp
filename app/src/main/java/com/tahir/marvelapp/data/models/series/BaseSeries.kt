@@ -1,9 +1,10 @@
-package com.tahir.marvelapp.data.model
+package com.tahir.marvelapp.data.models.series
 
 import com.google.gson.annotations.SerializedName
+import com.tahir.marvelapp.data.models.comics.Data
 
 
-data class BaseCharacters (
+data class BaseSeries (
 
   @SerializedName("code"            ) var code            : Int?    = null,
   @SerializedName("status"          ) var status          : String? = null,
