@@ -1,4 +1,4 @@
-package com.tahir.pokedex.ui
+package com.tahir.marvelapp.presenter.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,101 +20,101 @@ import androidx.paging.compose.items
 import com.tahir.marvelapp.data.models.characters.Results
 import com.tahir.marvelapp.presenter.navigation.Screen
 import com.tahir.marvelapp.presenter.viewmodels.CharacterListViewModel
-import com.tahir.marvelapp.presenter.ui.ImageLoader
 
 /**
- * PokeMonCardItem design
- * @param pokemon, navController.
+ * MarvelCardItem design
+ * @param marvelCharacter
  */
 @Composable
 fun MarvelCardItem(
-	marvelCharacter: Results,
-	navController: NavController
+    marvelCharacter: Results,
+    navController: NavController
 ) {
 
-	Card(
-		Modifier
-			.padding(8.dp)
-			.fillMaxWidth()
-			.clickable {
-                        navController.navigate(
-                                Screen.CharacterDetailscreen.withArgs(
-                                       marvelCharacter.id
-                                )
-                        )
+    Card(
+        Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .clickable {
+                navController.navigate(
+                    Screen.CharacterDetailscreen.withArgs(
+                        marvelCharacter.id
+                    )
+                )
 
-			},
-		shape = RoundedCornerShape(10.dp),
-		elevation = 5.dp
+            },
+        shape = RoundedCornerShape(10.dp),
+        elevation = 5.dp
 
 
-	) {
+    ) {
 
-		Row(verticalAlignment = Alignment.CenterVertically) {
-			var imageUrl = marvelCharacter.thumbnail?.path +"."+marvelCharacter.thumbnail?.extension
-			ImageLoader(imageUrl.replace("http:", "https:"))
-			Spacer(modifier = Modifier.width(8.dp))
-			marvelCharacter.name?.let {
-				Text(
-					text = it,
-					style = MaterialTheme.typography.h6,
-					modifier = Modifier.padding(8.dp)
-				)
-			}
-		}
-	}
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            var imageUrl =
+                marvelCharacter.thumbnail?.path + "." + marvelCharacter.thumbnail?.extension
+            ImageLoader(imageUrl.replace("http:", "https:"))
+            Spacer(modifier = Modifier.width(8.dp))
+            marvelCharacter.name?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.h6,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+        }
+    }
 }
 
 /**
- * PokeMonList design
+ * marvelList design
  * @param navController
  */
 @Composable
 fun MarvelList(
-	navController: NavController,
-	marvelListViewModel: CharacterListViewModel = hiltViewModel()
+    navController: NavController,
+    marvelListViewModel: CharacterListViewModel = hiltViewModel()
 ) {
-	val characterPagingList = marvelListViewModel.characterPager.collectAsLazyPagingItems()
+    val characterPagingList = marvelListViewModel.characterPager.collectAsLazyPagingItems()
 
-	LazyColumn {
+    LazyColumn {
 
-		items(characterPagingList) { results ->
+        items(characterPagingList) { results ->
 
-			if (results != null) {
+            if (results != null) {
 
-				MarvelCardItem(results, navController)
-			}
-
-
-		}
-
-	}
-	Box(
-		contentAlignment = Center,
-		modifier = Modifier.fillMaxSize()
-	) {
-		characterPagingList.apply {
-			when {
-				loadState.refresh is LoadState.Loading -> {
-					CircularProgressIndicator(color = MaterialTheme.colors.primary)
-
-				}
-				loadState.append is LoadState.Loading -> {
-					CircularProgressIndicator(color = MaterialTheme.colors.primary)
-
-				}
-				loadState.refresh is LoadState.Error -> {
-					val e = characterPagingList.loadState.refresh as LoadState.Error
-					RetrySection(error = e.error.message!!) {
-						characterPagingList.retry()
-					}
-				}
-			}
-
-		}
+                MarvelCardItem(results, navController)
+            }
 
 
-	}
+        }
+
+    }
+    Box(
+        contentAlignment = Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        characterPagingList.apply {
+            when {
+                loadState.refresh is LoadState.Loading -> {
+                    CircularProgressIndicator(color = MaterialTheme.colors.primary)
+
+                }
+                loadState.append is LoadState.Loading -> {
+                    CircularProgressIndicator(color = MaterialTheme.colors.primary)
+
+                }
+                loadState.refresh is LoadState.Error -> {
+                    val e = characterPagingList.loadState.refresh as LoadState.Error
+                    RetrySection(error = e.error.message!!) {
+                        characterPagingList.retry()
+                    }
+                }
+            }
+
+        }
+
+
+    }
 }
 
 /**
@@ -123,17 +123,17 @@ fun MarvelList(
  */
 @Composable
 fun RetrySection(
-	error: String,
-	onRetry: () -> Unit
+    error: String,
+    onRetry: () -> Unit
 ) {
-	Column {
-		Text(error, color = androidx.compose.ui.graphics.Color.Red, fontSize = 18.sp)
-		Spacer(modifier = Modifier.height(8.dp))
-		Button(
-			onClick = { onRetry() },
-			modifier = Modifier.align(CenterHorizontally)
-		) {
-			Text(text = "Retry")
-		}
-	}
+    Column {
+        Text(error, color = androidx.compose.ui.graphics.Color.Red, fontSize = 18.sp)
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            onClick = { onRetry() },
+            modifier = Modifier.align(CenterHorizontally)
+        ) {
+            Text(text = "Retry")
+        }
+    }
 }

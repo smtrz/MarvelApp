@@ -6,23 +6,27 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.tahir.marvelapp.data.models.Movie
+import com.tahir.marvelapp.data.commonDTOs.CharacterDetail
 import com.tahir.marvelapp.presenter.viewmodels.CharacterDetailsViewModel
-import com.tahir.pokedex.ui.MarvelAppTheme
 
 
 /**
@@ -35,108 +39,170 @@ fun ProfileScreen(
     navController: NavController,
     characterViewModel: CharacterDetailsViewModel = hiltViewModel()
 ) {
-    // mutableStateOf variables that are observed by the composable.
-    Surface(color = MaterialTheme.colors.background) {
+// live data variable for managing the lifecycle.
+    val loadState by characterViewModel.loadState.observeAsState()
+    /*
+    mutableStateOf variables that are observed by the composable.
+     */
+    // mutablestate variable for all the three load operation to show/hide progress bar
+    val isComicLoading by remember { characterViewModel.isComicLoading }
+    val isSeriesLoading by remember { characterViewModel.isSeriesLoading }
+    val isEventsLoading by remember { characterViewModel.isEventLoading }
+    val isStoriesLoading by remember { characterViewModel.isStoriesLoading }
+
+// mutablestate variable for getting the list data.
+
+    val comicsList by remember { characterViewModel.comicsList }
+    val eventList by remember { characterViewModel.eventList }
+    val seriesList by remember { characterViewModel.seriesList }
+    val storiesList by remember { characterViewModel.storiesList }
+
+
+// getting the information from the view model using launchedeffect to avoid most of the side effects by recomposition.
+    if (!loadState!!) {
+        LaunchedEffect(key1 = true) {
+            characterViewModel.getCharacterDetails(id)
+        }
+    }
+
+
+    Surface {
+
         LazyColumn(content = {
             item {
-                GenreTitle(genreTitle = "Action Thriller")
-                MovieList(
-                    movieList = listOf(
-                        Movie(
-                            1,
-                            "Awesome",
-                            "Horror",
-                            "tahir",
-                            "three hours",
-                            "lorem ipsum"
-                        )
-                    )
+                setMsg(title = "Comics")
+                if (isComicLoading) {
+                    showProgressDialog()
+                }
+                DetailsList(
+                    comicsList
                 )
                 Spacer(Modifier.size(10.dp))
-                GenreTitle(genreTitle = "Comedy")
-                MovieList(
-                    movieList = listOf(
-                        Movie(
-                            1,
-                            "Awesome",
-                            "Horror",
-                            "tahir",
-                            "three hours",
-                            "lorem ipsum"
-                        )
-                    )
+
+                setMsg(title = "Series")
+                if (isSeriesLoading) {
+                    showProgressDialog()
+                }
+                DetailsList(
+                    seriesList
                 )
                 Spacer(Modifier.size(10.dp))
-                GenreTitle(genreTitle = "Animation")
-                MovieList(
-                    movieList = listOf(
-                        Movie(
-                            1,
-                            "Awesome",
-                            "Horror",
-                            "tahir",
-                            "three hours",
-                            "lorem ipsum"
-                        )
-                    )
+                setMsg(title = "Stories")
+                if (isStoriesLoading) {
+                    showProgressDialog()
+                }
+                DetailsList(
+                    storiesList
+                )
+
+                Spacer(Modifier.size(10.dp))
+                setMsg(title = "Events")
+                if (isEventsLoading) {
+                    showProgressDialog()
+                }
+                DetailsList(
+                    eventList
                 )
             }
         })
     }
 
 
-
-
 }
+
 @Composable
-fun MovieItemView(movie: Movie) {
+fun showProgressDialog() {
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(color = MaterialTheme.colors.primary)
+    }
+}
+
+@Composable
+fun DetailsItemView(characterDetail: CharacterDetail) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .width(100.dp)
             .wrapContentHeight()
     ) {
+
+
         Image(
-            rememberAsyncImagePainter("https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"),
+            rememberAsyncImagePainter(
+                characterDetail.imageUrl,
+                error = painterResource(com.tahir.marvelapp.R.drawable.image_not_available),
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(150.dp)
                 .padding(5.dp),
             contentDescription = ""
         )
-        Text(
-            text = movie.movieName,
-            style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Bold)
-        )
+        characterDetail.Name?.let {
+            Text(
+                text = it,
+                style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            )
+        }
     }
 }
 
 @Composable
-fun MovieList(movieList: List<Movie>) {
-    LazyRow(content = {
-        items(movieList) { movie ->
-            MovieItemView(movie = movie)
+fun DetailsList(profileDetails: ArrayList<CharacterDetail>) {
 
+    if (profileDetails.size == 0) {
+        noData()
+
+    } else {
+
+        if (profileDetails != null) {
+            LazyRow(content = {
+                items(profileDetails) { detail ->
+                    DetailsItemView(characterDetail = detail)
+
+
+                }
+            })
 
         }
-    })
+    }
+
+
 }
 
 @Composable
 
-fun GenreTitle(genreTitle: String) {
+fun setMsg(title: String) {
     Text(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(5.dp),
         style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
-        text = genreTitle
+        text = title
     )
 
 }
 
 
+@Composable
+
+fun noData() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(20.dp)
+    ) {
+        Text("No data found.")
+
+    }
+
+}
 
 
 

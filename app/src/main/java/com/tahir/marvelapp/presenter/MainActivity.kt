@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.tahir.marvelapp.presenter.navigation.Navigation
-import com.tahir.pokedex.ui.MarvelAppTheme
+import com.tahir.marvelapp.presenter.ui.MarvelAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

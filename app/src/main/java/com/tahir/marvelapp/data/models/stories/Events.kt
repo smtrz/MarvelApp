@@ -1,13 +1,8 @@
 package com.tahir.marvelapp.data.models.stories
 
-import com.google.gson.annotations.SerializedName
-
-
-data class Events (
-
-  @SerializedName("available"     ) var available     : Int?              = null,
-  @SerializedName("collectionURI" ) var collectionURI : String?           = null,
-  @SerializedName("items"         ) var items         : ArrayList<String> = arrayListOf(),
-  @SerializedName("returned"      ) var returned      : Int?              = null
-
+data class Events(
+    val available: Int,
+    val collectionURI: String,
+    val items: List<Any>,
+    val returned: Int
 )
