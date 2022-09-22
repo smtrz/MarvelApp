@@ -1,4 +1,4 @@
-package com.tahir.marvelapp.Constants
+package com.tahir.marvelapp.constants
 
 class WebServiceConstants {
     companion object {

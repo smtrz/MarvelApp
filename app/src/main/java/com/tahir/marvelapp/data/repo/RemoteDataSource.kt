@@ -1,6 +1,7 @@
 package com.tahir.marvelapp.data.repo
 
 import com.tahir.marvelapp.api.MarvelService
+import com.tahir.marvelapp.data.commonDTOs.MarvelCharacter
 import javax.inject.Inject
 
 /**
@@ -9,7 +10,12 @@ import javax.inject.Inject
  */
 class RemoteDataSource @Inject constructor(private val marvelService: MarvelService) {
     suspend fun getPaginatedMarvels(offset: Int, limit: Int) =
-        marvelService.gePaginatedCharacters(offset, limit)
+        MarvelCharacter.fromCharacterBaseClasstoDTO(
+            marvelService.gePaginatedCharacters(
+                offset,
+                limit
+            )
+        )
 
     suspend fun getCharacterComics(id: Int) =
         marvelService.getCharacterComics(id)

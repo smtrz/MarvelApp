@@ -1,7 +1,7 @@
 package com.tahir.marvelapp.di
 
 import androidx.multidex.BuildConfig
-import com.tahir.marvelapp.Constants.WebServiceConstants
+import com.tahir.marvelapp.constants.WebServiceConstants
 import com.tahir.marvelapp.api.MarvelService
 
 import dagger.Module

@@ -5,7 +5,11 @@ import com.tahir.marvelapp.data.models.events.BaseEvents
 import com.tahir.marvelapp.data.models.series.BaseSeries
 import com.tahir.marvelapp.data.models.stories.BaseStories
 
-data class CharacterDetail(val Name: String? = null, val imageUrl: String? = null) {
+data class CharacterDetail(
+    val Name: String? = null,
+    val imageUrl: String? = null,
+    val type: String? = null
+) {
     companion object {
 
 
@@ -23,7 +27,8 @@ data class CharacterDetail(val Name: String? = null, val imageUrl: String? = nul
                                     (comicdata.thumbnail?.path?.replace(
                                         "http:",
                                         "https:"
-                                    ) + "." + comicdata.thumbnail?.extension)
+                                    ) + "." + comicdata.thumbnail?.extension),
+                                    "comics"
 
 
                                 )
@@ -48,7 +53,8 @@ data class CharacterDetail(val Name: String? = null, val imageUrl: String? = nul
                                     (comicdata.thumbnail?.path?.replace(
                                         "http:",
                                         "https:"
-                                    ) + "." + comicdata.thumbnail?.extension)
+                                    ) + "." + comicdata.thumbnail?.extension),
+                                    "stories"
 
 
                                 )
@@ -68,7 +74,8 @@ data class CharacterDetail(val Name: String? = null, val imageUrl: String? = nul
                                     (comicdata.thumbnail?.path?.replace(
                                         "http:",
                                         "https:"
-                                    ) + "." + comicdata.thumbnail?.extension)
+                                    ) + "." + comicdata.thumbnail?.extension),
+                                    "events"
                                 )
                             )
 
@@ -86,8 +93,7 @@ data class CharacterDetail(val Name: String? = null, val imageUrl: String? = nul
                                     (comicdata.thumbnail?.path?.replace(
                                         "http:",
                                         "https:"
-                                    ) + "." + comicdata.thumbnail?.extension)
-
+                                    ) + "." + comicdata.thumbnail?.extension), "series"
                                 )
                             )
 

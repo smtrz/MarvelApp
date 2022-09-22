@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import com.tahir.marvelapp.data.models.characters.Results
+import com.tahir.marvelapp.data.commonDTOs.MarvelCharacter
 import com.tahir.marvelapp.presenter.navigation.Screen
 import com.tahir.marvelapp.presenter.viewmodels.CharacterListViewModel
 
@@ -27,7 +27,7 @@ import com.tahir.marvelapp.presenter.viewmodels.CharacterListViewModel
  */
 @Composable
 fun MarvelCardItem(
-    marvelCharacter: Results,
+    marvelCharacter: MarvelCharacter,
     navController: NavController
 ) {
 
@@ -51,10 +51,12 @@ fun MarvelCardItem(
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             var imageUrl =
-                marvelCharacter.thumbnail?.path + "." + marvelCharacter.thumbnail?.extension
-            ImageLoader(imageUrl.replace("http:", "https:"))
+                marvelCharacter.imageUrl
+            imageUrl?.let {
+                ImageLoader(it)
+            }
             Spacer(modifier = Modifier.width(8.dp))
-            marvelCharacter.name?.let {
+            marvelCharacter.Name?.let {
                 Text(
                     text = it,
                     style = MaterialTheme.typography.h6,

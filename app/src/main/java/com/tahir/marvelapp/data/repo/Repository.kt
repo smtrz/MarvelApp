@@ -1,10 +1,10 @@
 package com.tahir.marvelapp.data.repo
 
+import com.tahir.marvelapp.data.commonDTOs.MarvelCharacter
 import com.tahir.marvelapp.data.models.comics.BaseComic
 import com.tahir.marvelapp.data.models.events.BaseEvents
 import com.tahir.marvelapp.data.models.series.BaseSeries
 import com.tahir.marvelapp.data.models.stories.BaseStories
-import com.tahir.marvelapp.data.models.characters.BaseCharacters
 import com.tahir.marvelapp.extensions.applyCommonSideEffects
 import com.tahir.marvelapp.generics.BaseApiResponse
 import com.tahir.marvelapp.generics.ResponseResult
@@ -33,7 +33,7 @@ constructor(
      * @param offset, limit
      * @return Species
      */
-    suspend fun getPaginatedCharacters(offset: Int, limit: Int): BaseCharacters {
+    suspend fun getPaginatedCharacters(offset: Int, limit: Int): ArrayList<MarvelCharacter> {
         return remoteDataSource.getPaginatedMarvels(offset, limit)
 
     }

@@ -1,7 +1,7 @@
 package com.tahir.marvelapp.api
 
 import com.tahir.marvelapp.*
-import com.tahir.marvelapp.Constants.WebServiceConstants
+import com.tahir.marvelapp.constants.WebServiceConstants
 import com.tahir.marvelapp.data.models.characters.BaseCharacters
 import com.tahir.marvelapp.data.models.comics.BaseComic
 import com.tahir.marvelapp.data.models.events.BaseEvents

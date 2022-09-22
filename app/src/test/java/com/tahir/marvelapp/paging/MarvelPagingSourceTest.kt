@@ -1,7 +1,7 @@
 package com.tahir.marvelapp.paging
 
 import androidx.paging.PagingSource
-import com.tahir.marvelapp.Constants.WebServiceConstants
+import com.tahir.marvelapp.constants.WebServiceConstants
 import com.tahir.marvelapp.data.paging.MarvelCharactersDataSource
 import com.tahir.marvelapp.data.repo.RemoteDataSource
 import com.tahir.marvelapp.data.repo.Repository
@@ -37,9 +37,9 @@ class MarvelPagingSourceTest {
         val pagingSource = MarvelCharactersDataSource(repository)
 
         val expected =
-            repository.getPaginatedCharacters(0, WebServiceConstants.PAGE_SIZE).data?.let {
+            repository.getPaginatedCharacters(0, WebServiceConstants.PAGE_SIZE)?.let {
                 PagingSource.LoadResult.Page(
-                    data = it.results,
+                    data = it,
                     prevKey = null,
                     nextKey = 100
                 )

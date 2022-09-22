@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.tahir.marvelapp.Constants.WebServiceConstants
+import com.tahir.marvelapp.constants.WebServiceConstants
 import com.tahir.marvelapp.data.paging.MarvelCharactersDataSource
 import com.tahir.marvelapp.data.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
