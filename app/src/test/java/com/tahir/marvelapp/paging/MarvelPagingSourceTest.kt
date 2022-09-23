@@ -29,7 +29,7 @@ class MarvelPagingSourceTest {
     fun setUp() {
         fakeRepoImpl = FakeRemoteRepoImpl()
         remoteDataSource = RemoteDataSource(fakeRepoImpl)
-        repository = Repository(remoteDataSource)
+        repository = Repository(remoteDataSource,)
     }
 
     @Test

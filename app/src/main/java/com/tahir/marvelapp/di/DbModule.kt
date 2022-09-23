@@ -24,7 +24,10 @@ object DbModule {
 
     @Singleton
     @Provides
-    fun provideDao(db: AppDatabase) = db.marvelAppDao()
+    fun provideMarvelDao(db: AppDatabase) = db.marvelAppDao()
 
+    @Singleton
+    @Provides
+    fun provideRemoetKeysDao(db: AppDatabase) = db.remoteKeysDao()
 
 }

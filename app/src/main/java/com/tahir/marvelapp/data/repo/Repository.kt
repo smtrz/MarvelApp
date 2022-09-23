@@ -1,6 +1,8 @@
 package com.tahir.marvelapp.data.repo
 
+import androidx.paging.PagingSource
 import com.tahir.marvelapp.data.commonDTOs.MarvelCharacter
+import com.tahir.marvelapp.data.db.AppDatabase
 import com.tahir.marvelapp.data.models.comics.BaseComic
 import com.tahir.marvelapp.data.models.events.BaseEvents
 import com.tahir.marvelapp.data.models.series.BaseSeries
@@ -25,14 +27,21 @@ import javax.inject.Singleton
 class Repository
 @Inject
 constructor(
-    private val remoteDataSource: RemoteDataSource
+    private val remoteDataSource: RemoteDataSource,
+    private val db:AppDatabase
 ) : BaseApiResponse() {
 
+
+     fun getCharactersFromDb(): PagingSource<Int, MarvelCharacter> {
+       return db.marvelAppDao().getAllCharacters()
+
+    }
     /**
      * calls API for paginated marvel characters
      * @param offset, limit
      * @return Species
      */
+
     suspend fun getPaginatedCharacters(offset: Int, limit: Int): ArrayList<MarvelCharacter> {
         return remoteDataSource.getPaginatedMarvels(offset, limit)
 

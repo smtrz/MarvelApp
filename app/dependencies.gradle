@@ -1,6 +1,6 @@
 final RetrofitVersion = '2.9.0'
 final OkHttpVersion = '4.10.0'
-final roomVersion = '2.4.0'
+final roomVersion = '2.4.3'
 final lifecycle_version = '2.4.0'
 final rxAndroid_version = '2.1.1'
 final rxJava_version = '2.2.19'
@@ -8,7 +8,7 @@ final moshi_version = '1.12.0'
 final daggerHiltVersion = '2.40'
 final hiltLifeCycleVersion = '1.0.0-alpha03'
 final activity_version = "1.1.0"
-final paging = "3.1.0-beta01"
+final paging = "3.1.1"
 final work_version = "2.7.1"
 final nav_version = "2.5.1"
 final compose_version = "1.2.1"
@@ -61,6 +61,7 @@ ext {
             viewModel       : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
             room            : "androidx.room:room-runtime:$roomVersion",
             roomCoroutine   : "androidx.room:room-ktx:$roomVersion",
+            roomPaging      : "androidx.room:room-paging:$roomVersion",
             viewBinding     : "com.android.databinding:viewbinding:4.2.1",
             act_kotlin      : "androidx.activity:activity-ktx:$activity_version",
             pagination      : "androidx.paging:paging-runtime:$paging",

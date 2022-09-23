@@ -75,7 +75,7 @@ fun ProfileScreen(
                     showProgressDialog()
                 }
                 DetailsList(
-                    comicsList
+                    comicsList, isComicLoading
                 )
                 Spacer(Modifier.size(10.dp))
 
@@ -84,7 +84,7 @@ fun ProfileScreen(
                     showProgressDialog()
                 }
                 DetailsList(
-                    seriesList
+                    seriesList, isSeriesLoading
                 )
                 Spacer(Modifier.size(10.dp))
                 setMsg(title = "Stories")
@@ -92,7 +92,7 @@ fun ProfileScreen(
                     showProgressDialog()
                 }
                 DetailsList(
-                    storiesList
+                    storiesList, isStoriesLoading
                 )
 
                 Spacer(Modifier.size(10.dp))
@@ -101,7 +101,7 @@ fun ProfileScreen(
                     showProgressDialog()
                 }
                 DetailsList(
-                    eventList
+                    eventList, isEventsLoading
                 )
             }
         })
@@ -152,9 +152,9 @@ fun DetailsItemView(characterDetail: CharacterDetail) {
 }
 
 @Composable
-fun DetailsList(profileDetails: ArrayList<CharacterDetail>) {
+fun DetailsList(profileDetails: ArrayList<CharacterDetail>, loading: Boolean) {
 
-    if (profileDetails.size == 0) {
+    if (profileDetails.size == 0 && !loading) {
         noData()
 
     } else {
