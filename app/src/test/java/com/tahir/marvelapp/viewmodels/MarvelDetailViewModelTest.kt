@@ -1,6 +1,7 @@
 package com.tahir.marvelapp.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.tahir.marvelapp.data.commonDTOs.CharacterDetail
 import com.tahir.marvelapp.data.repo.Repository
 import com.tahir.marvelapp.fakeRepository.FakeRemoteRepoImpl
 import com.tahir.marvelapp.generics.ResponseResult
@@ -35,6 +36,7 @@ class MarvelDetailViewModelTest {
 
     @InjectMocks
     lateinit var characterViewModel: CharacterDetailsViewModel
+
     val characterId = 1011334
 
     @Before
@@ -46,6 +48,7 @@ class MarvelDetailViewModelTest {
     fun `marvel comic details are returned`() = runBlocking {
         try {
 
+
             `when`(repository.getCharacterComics(characterId))
                 .thenReturn(
                     flow {
@@ -56,8 +59,26 @@ class MarvelDetailViewModelTest {
                         )
                     }
                 )
+
+
+
+            `when`(repository.getMarvelCharacterDetailsFromDbFromId(characterId))
+                .thenReturn(
+                    flow {
+                        emit(
+
+                            CharacterDetail.fromBaseClasstoDto(
+                                fakeRepoImpl.getCharacterComics(characterId).body()!!, characterId
+                            )
+                        )
+                    }
+                )
+
             characterViewModel.getComicsFromCharacter(characterId)
-            Assert.assertTrue(characterViewModel.comicsList.value.get(0).Name.equals("Avengers: The Initiative (2007) #19"))
+            characterViewModel.getDataFromDb(characterId)
+            Assert.assertTrue(characterViewModel.marvelDetails.value.filter {
+                it.type.equals("comics")
+            }.get(0).Name.equals("Avengers: The Initiative (2007) #19"))
 
         } catch (exception: Exception) {
             println(exception.message)
@@ -79,8 +100,24 @@ class MarvelDetailViewModelTest {
                         )
                     }
                 )
+
+            `when`(repository.getMarvelCharacterDetailsFromDbFromId(characterId))
+                .thenReturn(
+                    flow {
+                        emit(
+
+                            CharacterDetail.fromBaseClasstoDto(
+                                fakeRepoImpl.getCharacterEvents(characterId).body()!!, characterId
+                            )
+                        )
+                    }
+                )
             characterViewModel.getEventsFromCharacter(characterId)
-            Assert.assertTrue(characterViewModel.eventList.value.get(0).Name.equals("Secret Invasion"))
+            characterViewModel.getDataFromDb(characterId)
+            Assert.assertTrue(characterViewModel.marvelDetails.value.filter {
+                it.type.equals("events")
+            }.get(0).Name.equals("Secret Invasion"))
+
 
         } catch (exception: Exception) {
             println(exception.message)
@@ -102,8 +139,24 @@ class MarvelDetailViewModelTest {
                         )
                     }
                 )
+
+            `when`(repository.getMarvelCharacterDetailsFromDbFromId(characterId))
+                .thenReturn(
+                    flow {
+                        emit(
+
+                            CharacterDetail.fromBaseClasstoDto(
+                                fakeRepoImpl.getCharacterSeries(characterId).body()!!, characterId
+                            )
+                        )
+                    }
+                )
             characterViewModel.getSeriesFromCharacter(characterId)
-            Assert.assertTrue(characterViewModel.seriesList.value.get(0).Name.equals("Avengers: The Initiative (2007 - 2010)"))
+            characterViewModel.getDataFromDb(characterId)
+            Assert.assertTrue(characterViewModel.marvelDetails.value.filter {
+                it.type.equals("series")
+            }.get(0).Name.equals("Avengers: The Initiative (2007 - 2010)"))
+
 
         } catch (exception: Exception) {
             println(exception.message)
@@ -126,8 +179,23 @@ class MarvelDetailViewModelTest {
                         )
                     }
                 )
+
+            `when`(repository.getMarvelCharacterDetailsFromDbFromId(characterId))
+                .thenReturn(
+                    flow {
+                        emit(
+
+                            CharacterDetail.fromBaseClasstoDto(
+                                fakeRepoImpl.getCharacterStories(characterId).body()!!, characterId
+                            )
+                        )
+                    }
+                )
             characterViewModel.getStoriesFromCharacter(characterId)
-            Assert.assertTrue(characterViewModel.storiesList.value.get(0).Name.equals("Cover #19947"))
+            characterViewModel.getDataFromDb(characterId)
+            Assert.assertTrue(characterViewModel.marvelDetails.value.filter {
+                it.type.equals("stories")
+            }.get(0).Name.equals("Cover #19947"))
 
         } catch (exception: Exception) {
             println(exception.message)

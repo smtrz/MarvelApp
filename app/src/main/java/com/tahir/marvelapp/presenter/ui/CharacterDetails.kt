@@ -10,11 +10,8 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -52,14 +49,12 @@ fun ProfileScreen(
 
 // mutablestate variable for getting the list data.
 
-    val comicsList by remember { characterViewModel.comicsList }
-    val eventList by remember { characterViewModel.eventList }
-    val seriesList by remember { characterViewModel.seriesList }
-    val storiesList by remember { characterViewModel.storiesList }
+    var marvelDetail by remember { characterViewModel.marvelDetails }
+    // val marvelDetail by characterViewModel.marvelDetails.observeAsState()
 
 
 // getting the information from the view model using launchedeffect to avoid most of the side effects by recomposition.
-    if (!loadState!!) {
+    if (loadState == false) {
         LaunchedEffect(key1 = true) {
             characterViewModel.getCharacterDetails(id)
         }
@@ -68,43 +63,51 @@ fun ProfileScreen(
 
     Surface {
 
-        LazyColumn(content = {
+        LazyColumn {
             item {
                 setMsg(title = "Comics")
                 if (isComicLoading) {
                     showProgressDialog()
                 }
-                DetailsList(
-                    comicsList, isComicLoading
-                )
+                marvelDetail?.let {
+                    DetailsList(
+                        it.filter { it.type.equals("comics") }, isComicLoading
+                    )
+                }
                 Spacer(Modifier.size(10.dp))
 
                 setMsg(title = "Series")
                 if (isSeriesLoading) {
                     showProgressDialog()
                 }
-                DetailsList(
-                    seriesList, isSeriesLoading
-                )
+                marvelDetail?.let {
+                    DetailsList(
+                        it.filter { it.type.equals("series") }, isSeriesLoading
+                    )
+                }
                 Spacer(Modifier.size(10.dp))
                 setMsg(title = "Stories")
                 if (isStoriesLoading) {
                     showProgressDialog()
                 }
-                DetailsList(
-                    storiesList, isStoriesLoading
-                )
+                marvelDetail?.let {
+                    DetailsList(
+                        it.filter { it.type.equals("stories") }, isStoriesLoading
+                    )
+                }
 
                 Spacer(Modifier.size(10.dp))
                 setMsg(title = "Events")
                 if (isEventsLoading) {
                     showProgressDialog()
                 }
-                DetailsList(
-                    eventList, isEventsLoading
-                )
+                marvelDetail?.let {
+                    DetailsList(
+                        it.filter { it.type.equals("events") }, isEventsLoading
+                    )
+                }
             }
-        })
+        }
     }
 
 
@@ -152,9 +155,9 @@ fun DetailsItemView(characterDetail: CharacterDetail) {
 }
 
 @Composable
-fun DetailsList(profileDetails: ArrayList<CharacterDetail>, loading: Boolean) {
+fun DetailsList(profileDetails: List<CharacterDetail>, loading: Boolean) {
 
-    if (profileDetails.size == 0 && !loading) {
+    if (profileDetails.isEmpty() && !loading) {
         noData()
 
     } else {

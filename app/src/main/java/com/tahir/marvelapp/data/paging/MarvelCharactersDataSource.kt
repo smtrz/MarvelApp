@@ -29,7 +29,7 @@ class MarvelCharactersDataSource(private val repository: Repository) :
             LoadResult.Page(
                 data = characterList,
                 prevKey = if (offset == STARTING_OFFSET_INDEX) null else offset - PAGE_SIZE,
-                nextKey = if (characterList!!.size != 0) offset + PAGE_SIZE else null
+                nextKey = if (characterList.size != 0) offset + PAGE_SIZE else null
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)

@@ -5,7 +5,6 @@ class WebServiceConstants {
         const val BASE_URL = "https://gateway.marvel.com/v1/public/"
         const val STARTING_OFFSET_INDEX = 0
         const val PAGE_SIZE = 100
-
         // API Constants path variables
         const val GET_CHARACTERS = "characters"
         const val GET_COMICS = "characters/{id}/comics"

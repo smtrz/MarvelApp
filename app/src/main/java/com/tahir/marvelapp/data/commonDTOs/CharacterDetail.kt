@@ -1,19 +1,32 @@
 package com.tahir.marvelapp.data.commonDTOs
 
+import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.tahir.marvelapp.data.models.comics.BaseComic
 import com.tahir.marvelapp.data.models.events.BaseEvents
 import com.tahir.marvelapp.data.models.series.BaseSeries
 import com.tahir.marvelapp.data.models.stories.BaseStories
-
+import kotlinx.android.parcel.Parcelize
+/*
+DTO - Only contains the fields required to show the list of characters.
+ */
+@Entity
+@Parcelize
 data class CharacterDetail(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int? = null,
+    val marvel_id: Int? = null,
     val Name: String? = null,
     val imageUrl: String? = null,
     val type: String? = null
-) {
+) : Parcelable {
     companion object {
 
-
-        fun fromBaseClasstoDto(data: Any): ArrayList<CharacterDetail> {
+        /*
+        iterate via BaseComics and returns the list of comics.
+         */
+        fun fromBaseClasstoDto(data: Any, id: Int): ArrayList<CharacterDetail> {
             val characterDetail = arrayListOf<CharacterDetail>()
             when (data) {
                 is BaseComic -> {
@@ -22,13 +35,13 @@ data class CharacterDetail(
                         for (comicdata in comicResult) {
                             characterDetail.add(
                                 CharacterDetail(
-                                    comicdata.title,
-
-                                    (comicdata.thumbnail?.path?.replace(
+                                    Name = comicdata.title,
+                                    marvel_id = id,
+                                    imageUrl = (comicdata.thumbnail?.path?.replace(
                                         "http:",
                                         "https:"
                                     ) + "." + comicdata.thumbnail?.extension),
-                                    "comics"
+                                    type = "comics"
 
 
                                 )
@@ -47,14 +60,14 @@ data class CharacterDetail(
 
                             characterDetail.add(
                                 CharacterDetail(
-                                    comicdata.title,
+                                    Name = comicdata.title,
+                                    marvel_id = id,
 
-
-                                    (comicdata.thumbnail?.path?.replace(
+                                    imageUrl = (comicdata.thumbnail?.path?.replace(
                                         "http:",
                                         "https:"
                                     ) + "." + comicdata.thumbnail?.extension),
-                                    "stories"
+                                    type = "stories"
 
 
                                 )
@@ -70,12 +83,13 @@ data class CharacterDetail(
                         for (comicdata in comicResult) {
                             characterDetail.add(
                                 CharacterDetail(
-                                    comicdata.title,
-                                    (comicdata.thumbnail?.path?.replace(
+                                    Name = comicdata.title,
+                                    marvel_id = id,
+                                    imageUrl = (comicdata.thumbnail?.path?.replace(
                                         "http:",
                                         "https:"
                                     ) + "." + comicdata.thumbnail?.extension),
-                                    "events"
+                                    type = "events"
                                 )
                             )
 
@@ -89,11 +103,12 @@ data class CharacterDetail(
                         for (comicdata in comicResult) {
                             characterDetail.add(
                                 CharacterDetail(
-                                    comicdata.title,
-                                    (comicdata.thumbnail?.path?.replace(
+                                    Name = comicdata.title,
+                                    marvel_id = id,
+                                    imageUrl = (comicdata.thumbnail?.path?.replace(
                                         "http:",
                                         "https:"
-                                    ) + "." + comicdata.thumbnail?.extension), "series"
+                                    ) + "." + comicdata.thumbnail?.extension), type = "series"
                                 )
                             )
 

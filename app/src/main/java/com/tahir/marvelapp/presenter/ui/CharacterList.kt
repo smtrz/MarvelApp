@@ -38,7 +38,7 @@ fun MarvelCardItem(
             .clickable {
                 navController.navigate(
                     Screen.CharacterDetailscreen.withArgs(
-                        marvelCharacter.id
+                        marvelCharacter.marvel_id
                     )
                 )
 
@@ -107,9 +107,12 @@ fun MarvelList(
                 }
                 loadState.refresh is LoadState.Error -> {
                     val e = characterPagingList.loadState.refresh as LoadState.Error
-                    RetrySection(error = e.error.message!!) {
-                        characterPagingList.retry()
+                    if (characterPagingList.itemCount == 0) {
+                        RetrySection(error = e.error.message!!) {
+                            characterPagingList.retry()
+                        }
                     }
+
                 }
             }
 

@@ -11,6 +11,7 @@ import com.tahir.marvelapp.data.db.AppDatabase
 import com.tahir.marvelapp.data.paging.MarvelRemoteMediator
 import com.tahir.marvelapp.data.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 

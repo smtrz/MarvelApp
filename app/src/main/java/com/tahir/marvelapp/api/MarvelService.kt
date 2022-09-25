@@ -1,6 +1,6 @@
 package com.tahir.marvelapp.api
 
-import com.tahir.marvelapp.*
+import com.tahir.marvelapp.BuildConfig
 import com.tahir.marvelapp.constants.WebServiceConstants
 import com.tahir.marvelapp.data.models.characters.BaseCharacters
 import com.tahir.marvelapp.data.models.comics.BaseComic
@@ -33,6 +33,11 @@ interface MarvelService {
 
         ): BaseCharacters
 
+    /**
+     * get comics from the id of marvel character
+     * @param id , apikey,hash,ts
+     * @return BaseComic.
+     */
 
     @GET(WebServiceConstants.GET_COMICS)
     suspend fun getCharacterComics(
@@ -43,6 +48,12 @@ interface MarvelService {
 
         ): Response<BaseComic>
 
+    /**
+     * get series from the id of marvel character
+     * @param id , apikey,hash,ts
+     * @return BaseSeries.
+     */
+
     @GET(WebServiceConstants.GET_SERIES)
     suspend fun getCharacterSeries(
         @Path("id") id: Int,
@@ -52,6 +63,12 @@ interface MarvelService {
 
         ): Response<BaseSeries>
 
+    /**
+     * get stories from the id of marvel character
+     * @param id , apikey,hash,ts
+     * @return BaseStories.
+     */
+
     @GET(WebServiceConstants.GET_STORIES)
     suspend fun getCharacterStories(
         @Path("id") id: Int,
@@ -60,6 +77,12 @@ interface MarvelService {
         @Query("ts") ts: Int = 1,
 
         ): Response<BaseStories>
+
+    /**
+     * get events from the id of marvel character
+     * @param id , apikey,hash,ts
+     * @return BaseStories.
+     */
 
     @GET(WebServiceConstants.GET_EVENTS)
     suspend fun getCharacterEvents(

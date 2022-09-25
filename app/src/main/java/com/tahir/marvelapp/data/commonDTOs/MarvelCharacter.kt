@@ -5,15 +5,18 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.tahir.marvelapp.data.models.characters.BaseCharacters
 import kotlinx.android.parcel.Parcelize
-
+/*
+DTO - Only contains the fields required to show the list of characters details.
+ */
 @Entity
 @Parcelize
 data class MarvelCharacter(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
+    val marvel_id: Int? = null,
     val Name: String? = null,
     val imageUrl: String? = null
-): Parcelable {
+) : Parcelable {
     companion object {
 
 
@@ -22,9 +25,9 @@ data class MarvelCharacter(
             for (character in marvelCharacterData.data?.results.orEmpty()) {
                 marvelCharacters.add(
                     MarvelCharacter(
-                        character.id,
-                        character.name,
-                        (character.thumbnail?.path?.replace(
+                        marvel_id = character.id,
+                        Name = character.name,
+                        imageUrl = (character.thumbnail?.path?.replace(
                             "http:",
                             "https:"
                         ) + "." + character.thumbnail?.extension)

@@ -1,8 +1,8 @@
 package com.tahir.marvelapp.data.repo
 
-import androidx.paging.PagingSource
+import androidx.lifecycle.LiveData
+import com.tahir.marvelapp.data.commonDTOs.CharacterDetail
 import com.tahir.marvelapp.data.commonDTOs.MarvelCharacter
-import com.tahir.marvelapp.data.db.AppDatabase
 import com.tahir.marvelapp.data.models.comics.BaseComic
 import com.tahir.marvelapp.data.models.events.BaseEvents
 import com.tahir.marvelapp.data.models.series.BaseSeries
@@ -28,14 +28,27 @@ class Repository
 @Inject
 constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val db:AppDatabase
+    private val localDataSource: LocalDataSource
 ) : BaseApiResponse() {
 
+    // Local Database operations
+    fun getCharactersFromDb() = localDataSource.getCharactersFromDb()
+    suspend fun addMarvelCharactersToDb(marvelCharacters: ArrayList<MarvelCharacter>) =
+        localDataSource.addMarvelCharacter(marvelCharacters)
 
-     fun getCharactersFromDb(): PagingSource<Int, MarvelCharacter> {
-       return db.marvelAppDao().getAllCharacters()
+    suspend fun deleteAllCharactersFromDb() = localDataSource.deleteAllCharacters()
 
-    }
+    // insert marvel character details.
+    suspend fun addMarvelCharacterDetailsToDb(marvelCharacterDetail: ArrayList<CharacterDetail>) =
+        localDataSource.addMarvelCharacterDetails(marvelCharacterDetail)
+
+
+
+     fun getMarvelCharacterDetailsFromDbFromId(
+        id: Int
+    ): Flow<List<CharacterDetail>> =
+        localDataSource.getMarvelCharacterDetailsFromId(id)
+
     /**
      * calls API for paginated marvel characters
      * @param offset, limit
