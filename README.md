@@ -28,12 +28,14 @@ App is based on the MVVM architecture and the Repository pattern.
 - Jetpack
   - Lifecycle - Observe Android lifecycles and handle UI states upon the lifecycle changes.
   - ViewModel - Manages UI-related data holder and lifecycle aware. Allows data to survive configuration changes such as screen rotations.
-  - Paging3  - Manages seemless data loading and caches data in viewmodel scope
+  - Remote Madiator with Paging3  - Manages seemless data loading and caches data in viewmodel scope
+  - offline support: Persist marvel character and details with ROOM
   - Navigation - For screen navigation and data passing
   - Compose   - For designing the composable UI
 
-## Unit Tests
-- Paging3 Unit test
+## Unit & Instrumentation Tests
+- Database instrumentation tests
+- PagingSource with room needs some fixes
 - ViewModel Unit Test with Fake Repository is also present in the app.
 
 ## Open API
@@ -42,4 +44,3 @@ MarvelAPI provides a RESTful API interface to highly detailed objects built from
 
 ## Notes and Improvements
 - Adding UI testing using Espresso.
-- Adding Character Data Transfer Object and persisting the data in Room
